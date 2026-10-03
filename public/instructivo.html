@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instructivo de Despliegue en Producción - Sistema PYP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #09090b;
+      --card-bg: #121215;
+      --card-border: #27272a;
+      --accent: #10b981;
+      --accent-glow: rgba(16, 185, 129, 0.15);
+      --text: #f4f4f5;
+      --text-muted: #a1a1aa;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --info: #3b82f6;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 2.5rem 1.5rem;
+      background: linear-gradient(180deg, rgba(16,185,129,0.08) 0%, rgba(9,9,11,0) 100%);
+      border-radius: 1.5rem;
+      border: 1px solid var(--card-border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 400px;
+      height: 200px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      filter: blur(40px);
+      z-index: 0;
+    }
+
+    .badge-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      font-size: 2.25rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.75rem;
+      color: #ffffff;
+      position: relative;
+      z-index: 1;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 650px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .grid {
+      display: grid;
+      gap: 1.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 1rem;
+      padding: 1.75rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+      transition: border-color 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: #3f3f46;
+    }
+
+    .card-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    .card-title .icon {
+      font-size: 1.4rem;
+    }
+
+    /* Status tags */
+    .tag {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .tag-required {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .tag-locked {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .tag-optional {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    /* Tables */
+    .table-container {
+      overflow-x: auto;
+      margin-top: 1rem;
+      border-radius: 0.75rem;
+      border: 1px solid var(--card-border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      text-align: left;
+    }
+
+    th {
+      background: #18181b;
+      padding: 0.85rem 1rem;
+      font-weight: 700;
+      color: var(--text);
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    td {
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid var(--card-border);
+      color: #d4d4d8;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85em;
+      background: #18181b;
+      padding: 0.2rem 0.45rem;
+      border-radius: 4px;
+      border: 1px solid #27272a;
+      color: #34d399;
+    }
+
+    .code-block {
+      position: relative;
+      background: #09090b;
+      border: 1px solid #27272a;
+      border-radius: 0.75rem;
+      padding: 1.25rem;
+      margin: 1rem 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: #e4e4e7;
+      overflow-x: auto;
+      line-height: 1.7;
+    }
+
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-top: 1rem;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 0.2rem;
+    }
+
+    .step-content h4 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.35rem;
+    }
+
+    .step-content p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .callout {
+      padding: 1.1rem 1.25rem;
+      border-radius: 0.75rem;
+      margin: 1.25rem 0;
+      font-size: 0.9rem;
+      display: flex;
+      gap: 0.85rem;
+      align-items: flex-start;
+    }
+
+    .callout-warning {
+      background: rgba(245, 158, 11, 0.08);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      color: #fde68a;
+    }
+
+    .callout-danger {
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      color: #fecaca;
+    }
+
+    .callout-success {
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: #a7f3d0;
+    }
+
+    .callout-icon {
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      background: #27272a;
+      border: 1px solid #3f3f46;
+      color: #f4f4f5;
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: #3f3f46;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--card-border);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="badge-top">⚡ Guía Oficial de Producción</div>
+      <h1>Despliegue y Configuración en Producción</h1>
+      <p>Manual definitivo para configurar y poner en marcha el proyecto en <strong>Vercel</strong>, <strong>Railway</strong> o cualquier servidor Node.js sin errores ni confusiones.</p>
+    </header>
+
+    <div class="grid">
+
+      <!-- Sección 0: Modo 1-Clic Automático -->
+      <div class="card" style="border: 1px solid rgba(16, 185, 129, 0.4); background: linear-gradient(180deg, rgba(16,185,129,0.06) 0%, rgba(18,18,21,1) 100%);">
+        <h2 class="card-title" style="color: #34d399;"><span class="icon">🪄</span> Modo 1 Clic (Sin Comandos ni Terminal)</h2>
+        <p style="color: #e4e4e7; font-size: 0.95rem; margin-bottom: 1rem;">
+          Si no deseas escribir comandos en la terminal o no conoces Node.js, simplemente utiliza el lanzador automático en Windows:
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 1.25rem;">
+          <div style="background: #09090b; padding: 1.25rem; border-radius: 0.75rem; border: 1px solid #27272a;">
+            <div style="font-size: 1.5rem; margin-bottom: 0.35rem;">⚡</div>
+            <h3 style="font-size: 1.05rem; color: #fff; margin-bottom: 0.35rem;">INICIAR_SISTEMA.bat</h3>
+            <p style="color: var(--text-muted); font-size: 0.85rem;">
+              Haz <strong>doble clic</strong> en este archivo en la carpeta del proyecto. Verifica todo, arranca el servidor e inicia el Wizard en tu navegador solo.
+            </p>
+          </div>
+
+          <div style="background: #09090b; padding: 1.25rem; border-radius: 0.75rem; border: 1px solid #27272a;">
+            <div style="font-size: 1.5rem; margin-bottom: 0.35rem;">🚀</div>
+            <h3 style="font-size: 1.05rem; color: #fff; margin-bottom: 0.35rem;">DESPLEGAR_PRODUCCION.bat</h3>
+            <p style="color: var(--text-muted); font-size: 0.85rem;">
+              Haz <strong>doble clic</strong> para sincronizar tu repositorio con GitHub y abrir el asistente de despliegue en Vercel con 1 clic.
+            </p>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 0.5rem;">
+          <a href="/wizard.html" style="display: inline-flex; align-items: center; gap: 0.5rem; background: var(--accent); color: #000; font-weight: 700; padding: 0.75rem 1.5rem; border-radius: 0.65rem; text-decoration: none; box-shadow: 0 0 16px var(--accent-glow);">
+            <span>🪄 Abrir el Asistente Interactivo (Wizard)</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Sección 1: Variables de Entorno -->
+      <div class="card">
+        <h2 class="card-title"><span class="icon">🔑</span> 1. Variables de Entorno (.env) para Producción</h2>
+        <p style="color: var(--text-muted); font-size: 0.95rem;">
+          Al subir a Vercel o tu plataforma de hosting, agrega estas variables en la sección de <strong>Environment Variables</strong>:
+        </p>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Variable</th>
+                <th>Estado</th>
+                <th>Descripción y Regla</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>TELEGRAM_DTA</code></td>
+                <td><span class="tag tag-required">OBLIGATORIO</span></td>
+                <td><strong>Identificador único del proyecto en Supabase (Multi-tenant).</strong> Aísla bancos, configuraciones y QRs para que nunca se mezclen entre proyectos.</td>
+              </tr>
+              <tr>
+                <td><code>TELEGRAM_BOT</code></td>
+                <td><span class="tag tag-required">OBLIGATORIO</span></td>
+                <td>Token del bot de Telegram que envía alertas y responde a los botones de control (<code>TOKEN:HASH</code>).</td>
+              </tr>
+              <tr>
+                <td><code>TELEGRAM_CHAT</code></td>
+                <td><span class="tag tag-required">OBLIGATORIO</span></td>
+                <td>Chat ID o ID del grupo de Telegram donde se reciben las alertas en tiempo real (ej. <code>-1003775321635</code>).</td>
+              </tr>
+              <tr>
+                <td><code>NEXT_PUBLIC_SUPABASE_URL</code></td>
+                <td><span class="tag tag-required">OBLIGATORIO</span></td>
+                <td>URL del proyecto Supabase principal (base de datos y configuraciones globales).</td>
+              </tr>
+              <tr>
+                <td><code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code></td>
+                <td><span class="tag tag-required">OBLIGATORIO</span></td>
+                <td>Clave pública (Anon Key) del proyecto Supabase principal.</td>
+              </tr>
+              <tr>
+                <td><code>NEXT_PUBLIC_QR_SUPABASE_URL</code></td>
+                <td><span class="tag tag-required">OBLIGATORIO</span></td>
+                <td>URL del Supabase dedicado exclusivamente al Storage de Códigos QR.</td>
+              </tr>
+              <tr>
+                <td><code>NEXT_PUBLIC_QR_SUPABASE_ANON_KEY</code></td>
+                <td><span class="tag tag-required">OBLIGATORIO</span></td>
+                <td>Clave Anon del Storage de Códigos QR.</td>
+              </tr>
+              <tr>
+                <td><code>QR_SUPABASE_BUCKET</code></td>
+                <td><span class="tag tag-locked">NO CAMBIAR</span></td>
+                <td>Nombre del bucket de imágenes (debe ser exactamente: <code>qr_codes</code>).</td>
+              </tr>
+              <tr>
+                <td><code>PROYECTO</code></td>
+                <td><span class="tag tag-optional">OPCIONAL</span></td>
+                <td>Nombre descriptivo del proyecto en las notificaciones (ej. <code>PYP</code>).</td>
+              </tr>
+              <tr>
+                <td><code>OFFER_PAGE</code></td>
+                <td><span class="tag tag-locked">NO CAMBIAR</span></td>
+                <td>Ruta inicial de la oferta (dejar siempre en <code>/</code>).</td>
+              </tr>
+              <tr>
+                <td><code>TELEGRAM_CHAT_LOGS</code></td>
+                <td><span class="tag tag-optional">OPCIONAL</span></td>
+                <td>ID del canal para monitoreo de logs del servidor y accesos de seguridad.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-warning">
+          <span class="callout-icon">⚠️</span>
+          <div>
+            <strong>IMPORTANTE:</strong> Las variables que comienzan con <code>NEXT_PUBLIC_</code> son consumidas en el navegador del cliente. Nunca expongas la <code>SERVICE_ROLE_KEY</code> de Supabase en estas variables.
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección 2: Despliegue en Vercel -->
+      <div class="card">
+        <h2 class="card-title"><span class="icon">🚀</span> 2. Paso a Paso para Desplegar en Vercel</h2>
+        
+        <div class="steps">
+          <div class="step-item">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Subir el código a GitHub / GitLab</h4>
+              <p>Haz push de tu repositorio manteniendo la estructura limpia y sin incluir el archivo local <code>.env</code> ni la carpeta <code>node_modules</code>.</p>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Importar el proyecto en Vercel</h4>
+              <p>Inicia sesión en <a href="https://vercel.com" target="_blank" style="color: var(--accent); text-decoration: none; font-weight: 600;">Vercel</a>, haz clic en <strong>"Add New Project"</strong> y selecciona tu repositorio.</p>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Configuración de Build</h4>
+              <p>Vercel detectará automáticamente <strong>Next.js</strong>:</p>
+              <ul style="color: var(--text-muted); font-size: 0.9rem; margin-left: 1.5rem; margin-top: 0.35rem;">
+                <li><strong>Framework Preset:</strong> Next.js</li>
+                <li><strong>Build Command:</strong> <code>next build</code> (por defecto)</li>
+                <li><strong>Output Directory:</strong> <code>.next</code> (por defecto)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h4>Cargar las Variables de Entorno</h4>
+              <p>En la sección <strong>"Environment Variables"</strong> de Vercel, copia y pega todas las variables listadas en la tabla anterior.</p>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-number">5</div>
+            <div class="step-content">
+              <h4>Hacer clic en "Deploy"</h4>
+              <p>Espera entre 1 y 2 minutos hasta que Vercel termine la compilación y genere tu dominio de producción (ej. <code>https://tu-proyecto.vercel.app</code>).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección 3: Webhook de Telegram en Producción -->
+      <div class="card">
+        <h2 class="card-title"><span class="icon">🤖</span> 3. Configurar el Webhook de Telegram</h2>
+        <p style="color: var(--text-muted); font-size: 0.95rem;">
+          Para que los botones interactivos de Telegram (<strong>🔑 OTP</strong>, <strong>📱 QR</strong>, <strong>❌ Error</strong>, etc.) respondan al instante en producción, debes registrar el webhook apuntando a tu dominio de Vercel:
+        </p>
+
+        <div class="code-block" style="position: relative;">
+          <button class="copy-btn" onclick="navigator.clipboard.writeText('https://api.telegram.org/bot<TU_BOT_TOKEN>/setWebhook?url=https://<TU-DOMINIO-VERCEL.app>/api/banco/webhook'); alert('Comando copiado');">Copiar</button>
+          https://api.telegram.org/bot&lt;TU_BOT_TOKEN&gt;/setWebhook?url=https://&lt;TU-DOMINIO-VERCEL.app&gt;/api/banco/webhook
+        </div>
+
+        <div class="callout callout-success">
+          <span class="callout-icon">✅</span>
+          <div>
+            <strong>Verificación:</strong> Al abrir esa URL en tu navegador, Telegram debe responder:<br>
+            <code>{"ok":true,"result":true,"description":"Webhook was set"}</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección 4: Módulos de Administración (/terrorista-admin) -->
+      <div class="card">
+        <h2 class="card-title"><span class="icon">🛡️</span> 4. Panel de Control y Rutas de Administración</h2>
+        <p style="color: var(--text-muted); font-size: 0.95rem;">
+          El sistema cuenta con un panel XDM protegido para gestionar todo en tiempo real:
+        </p>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Ruta Admin</th>
+                <th>Propósito y Operación</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>/terrorista-admin/bancos</code></td>
+                <td>
+                  <strong>Gestión de Bancos PSE y QR:</strong>
+                  <ul style="margin-left: 1.25rem; margin-top: 0.25rem;">
+                    <li><strong>Switch Banco:</strong> Activa o desactiva el banco en el formulario PSE.</li>
+                    <li><strong>Switch QR:</strong> Configura para ese banco específico si solicita el pago mediante el QR Bre-B.</li>
+                  </ul>
+                </td>
+              </tr>
+              <tr>
+                <td><code>/terrorista-admin/qrs</code></td>
+                <td>
+                  <strong>Gestión de Códigos QR Bre-B:</strong> Carga la imagen del QR activo, asigna el alias y estado del código QR que verán los usuarios.
+                </td>
+              </tr>
+              <tr>
+                <td><code>/terrorista-admin/pagos</code></td>
+                <td>
+                  <strong>Medios de Pago Principales:</strong> Activa o desactiva los 6 botones de la página inicial (PSE, Bancolombia, TC, TD, Davivienda, Bre-B).
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Sección 5: Qué NO tocar -->
+      <div class="card">
+        <h2 class="card-title"><span class="icon">🚫</span> 5. Lo que NUNCA debes modificar ni alterar</h2>
+        
+        <div class="callout callout-danger">
+          <span class="callout-icon">🛑</span>
+          <div>
+            <ul style="margin-left: 1.25rem; line-height: 1.8;">
+              <li><strong>NO cambies el valor de <code>TELEGRAM_DTA</code></strong> en un proyecto activo sin sincronizar antes su tabla en Supabase, ya que perderá el enlace con sus configuraciones y bancos.</li>
+              <li><strong>NO toques los endpoints de la API</strong> (<code>/api/bancos</code>, <code>/api/payment-options</code>, <code>/api/banco/status</code>, etc.), están optimizados para tiempo real.</li>
+              <li><strong>NO utilices librerías pesadas externas</strong> que aumenten el bundle innecesariamente; el proyecto usa utilidades nativas y Tailwind v4.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <footer>
+      Instructivo Técnico de Despliegue &bull; Sistema PYP &bull; Generado para Producción Vercel / Cloud
+    </footer>
+  </div>
+
+</body>
+</html>

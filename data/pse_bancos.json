@@ -1,0 +1,212 @@
+[
+  {
+    "codigo": "1815",
+    "nombre": "ALIANZA FIDUCIARIA",
+    "active": true
+  },
+  {
+    "codigo": "1558",
+    "nombre": "BAN100",
+    "active": true
+  },
+  {
+    "codigo": "1059",
+    "nombre": "BANCAMIA S.A.",
+    "active": true
+  },
+  {
+    "codigo": "1040",
+    "nombre": "BANCO AGRARIO",
+    "active": true
+  },
+  {
+    "codigo": "1052",
+    "nombre": "BANCO AV VILLAS",
+    "active": true
+  },
+  {
+    "codigo": "1013",
+    "nombre": "BANCO BBVA COLOMBIA S.A.",
+    "active": true
+  },
+  {
+    "codigo": "1032",
+    "nombre": "BANCO CAJA SOCIAL",
+    "active": true
+  },
+  {
+    "codigo": "1066",
+    "nombre": "BANCO COOPERATIVO COOPCENTRAL",
+    "active": true
+  },
+  {
+    "codigo": "1051",
+    "nombre": "BANCO DAVIVIENDA",
+    "active": true
+  },
+  {
+    "codigo": "1001",
+    "nombre": "BANCO DE BOGOTA",
+    "active": true
+  },
+  {
+    "codigo": "1023",
+    "nombre": "BANCO DE OCCIDENTE",
+    "active": true
+  },
+  {
+    "codigo": "1062",
+    "nombre": "BANCO FALABELLA",
+    "active": true
+  },
+  {
+    "codigo": "1063",
+    "nombre": "BANCO FINANDINA S.A. BIC",
+    "active": true
+  },
+  {
+    "codigo": "1012",
+    "nombre": "BANCO GNB SUDAMERIS",
+    "active": true
+  },
+  {
+    "codigo": "1006",
+    "nombre": "BANCO ITAU",
+    "active": true
+  },
+  {
+    "codigo": "1071",
+    "nombre": "BANCO J.P. MORGAN COLOMBIA S.A.",
+    "active": true
+  },
+  {
+    "codigo": "1047",
+    "nombre": "BANCO MUNDO MUJER S.A.",
+    "active": true
+  },
+  {
+    "codigo": "1060",
+    "nombre": "BANCO PICHINCHA S.A.",
+    "active": true
+  },
+  {
+    "codigo": "1002",
+    "nombre": "BANCO POPULAR",
+    "active": true
+  },
+  {
+    "codigo": "1065",
+    "nombre": "BANCO SANTANDER COLOMBIA",
+    "active": true
+  },
+  {
+    "codigo": "1069",
+    "nombre": "BANCO SERFINANZA",
+    "active": true
+  },
+  {
+    "codigo": "1303",
+    "nombre": "BANCO UNION antes GIROS",
+    "active": true
+  },
+  {
+    "codigo": "1007",
+    "nombre": "BANCOLOMBIA",
+    "active": true
+  },
+  {
+    "codigo": "1061",
+    "nombre": "BANCOOMEVA S.A.",
+    "active": true
+  },
+  {
+    "codigo": "1808",
+    "nombre": "BOLD CF",
+    "active": true
+  },
+  {
+    "codigo": "1283",
+    "nombre": "CFA COOPERATIVA FINANCIERA",
+    "active": true
+  },
+  {
+    "codigo": "1009",
+    "nombre": "CITIBANK",
+    "active": true
+  },
+  {
+    "codigo": "1370",
+    "nombre": "COLTEFINANCIERA",
+    "active": true
+  },
+  {
+    "codigo": "1292",
+    "nombre": "CONFIAR COOPERATIVA FINANCIERA",
+    "active": true
+  },
+  {
+    "codigo": "1289",
+    "nombre": "COTRAFA",
+    "active": true
+  },
+  {
+    "codigo": "1816",
+    "nombre": "CREZCAMOS",
+    "active": true
+  },
+  {
+    "codigo": "1097",
+    "nombre": "DALE",
+    "active": true
+  },
+  {
+    "codigo": "1551",
+    "nombre": "DAVIPLATA",
+    "active": true
+  },
+  {
+    "codigo": "1637",
+    "nombre": "IRIS",
+    "active": true
+  },
+  {
+    "codigo": "1286",
+    "nombre": "JFK COOPERATIVA FINANCIERA",
+    "active": true
+  },
+  {
+    "codigo": "1070",
+    "nombre": "LULO BANK",
+    "active": true
+  },
+  {
+    "codigo": "1801",
+    "nombre": "MOVII S.A.",
+    "active": true
+  },
+  {
+    "codigo": "1507",
+    "nombre": "NEQUI",
+    "active": true
+  },
+  {
+    "codigo": "1809",
+    "nombre": "NU",
+    "active": true
+  },
+  {
+    "codigo": "1811",
+    "nombre": "RAPPIPAY",
+    "active": true
+  },
+  {
+    "codigo": "1019",
+    "nombre": "SCOTIABANK COLPATRIA",
+    "active": true
+  },
+  {
+    "codigo": "1804",
+    "nombre": "UALÁ",
+    "active": true
+  }
+]

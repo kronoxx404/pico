@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 50" width="240" height="50">
+  <style>
+    .text-secured { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 13px; fill: #666666; font-weight: 400; }
+    .payu-green1 { font-family: "Arial Black", Gadget, sans-serif; font-size: 24px; font-weight: 900; fill: #A5C422; letter-spacing: -1px; }
+    .payu-green2 { font-family: "Arial Black", Gadget, sans-serif; font-size: 24px; font-weight: 900; fill: #C2D82E; letter-spacing: -1px; }
+  </style>
+  <text x="0" y="32" class="text-secured">Payments secured by</text>
+  <g transform="translate(142, 10)">
+    <text x="0" y="24" class="payu-green1">Pay</text>
+    <text x="46" y="24" class="payu-green2">U</text>
+  </g>
+</svg>

@@ -1,0 +1,40 @@
+==============================================================================
+                    GUIA DE INSTALACION RAPIDA - TERRORISTA TERMINAL
+==============================================================================
+
+¡Bienvenido! Tienes opciones sencillas para poner a funcionar tu sistema:
+
+------------------------------------------------------------------------------
+ACCESO A TU PANEL DE ADMINISTRACION:
+------------------------------------------------------------------------------
+• URL Local:       http://localhost:3000/terrorista-admin
+• URL Producción:  https://tudominio.com/terrorista-admin
+• Tema de Diseño:  Violet Nebula (glassmorphism)
+(Por motivos de seguridad, la ruta de este panel es privada).
+
+------------------------------------------------------------------------------
+OPCION 1: INSTALACION EN TU COMPUTADOR (WINDOWS) - MODO 1-CLIC
+------------------------------------------------------------------------------
+1. Haz DOBLE CLIC en el archivo "INICIAR_SISTEMA.bat".
+2. Se abrira automaticamente tu navegador en: http://localhost:3000/wizard.html
+3. Ingresa tu Bot Token de Telegram, tu Chat ID y tu clave de Administrador.
+4. Presiona "⚡ Configurar e Instalar Todo Automáticamente".
+5. ¡Listo! Podras acceder a tu panel en http://localhost:3000/terrorista-admin
+
+------------------------------------------------------------------------------
+OPCION 2: DESPLIEGUE DIRECTO A VERCEL (SIN GIT NI GITHUB) - RECOMENDADO
+------------------------------------------------------------------------------
+1. Haz DOBLE CLIC en "SUBIR_A_VERCEL_SIN_GIT.bat".
+2. El asistente en consola te pedira tu Bot Token de Telegram, Chat ID y Clave.
+3. Inicia sesion en Vercel cuando te lo solicite y presiona Enter.
+4. En 1 minuto tu pasarela estara publicada en internet y te entregara tu enlace en vivo.
+
+------------------------------------------------------------------------------
+OPCION 3: DESPLIEGUE CON GITHUB Y VERCEL
+------------------------------------------------------------------------------
+1. Haz doble clic en "DESPLEGAR_PRODUCCION.bat" o sube esta carpeta a GitHub.
+2. En tu panel de Vercel (https://vercel.com), importa tu repositorio.
+3. En "Environment Variables", agrega las variables de tu archivo .env.
+4. Haz clic en "Deploy" y listo.
+
+==============================================================================

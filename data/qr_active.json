@@ -1,0 +1,17 @@
+{
+  "id": 1,
+  "url": "https://cvrsrnrpykoozcviwzef.supabase.co/storage/v1/object/public/qr_codes/active_qr_1787902742524.webp",
+  "isActive": true,
+  "name": "Banco ",
+  "monto": 580000,
+  "llave": "302515151",
+  "sizeBytes": 25202,
+  "originalSizeBytes": 76170,
+  "mimeType": "image/webp",
+  "dimensions": {
+    "width": 800,
+    "height": 800
+  },
+  "updatedAt": "2026-08-28T07:39:03.283Z",
+  "source": "sqlite"
+}

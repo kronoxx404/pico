@@ -1,0 +1,149 @@
+{
+  "123456789": {
+    "docType": "CC",
+    "document": "123456789",
+    "persona": "Persona Natural",
+    "nombre": "asdasdasd",
+    "correo": "jockersnniperw@gmail.com",
+    "telefono": "12312312313",
+    "updatedAt": "2026-07-29T10:15:07.750Z",
+    "userData": {
+      "success": true,
+      "found": true,
+      "isMock": true,
+      "requireDataUpdate": false,
+      "pagador": {
+        "docType": "CC",
+        "document": "123456789",
+        "nombres": "asdasdasd",
+        "apellidos": "COOMEVA",
+        "nombreCompleto": "asdasdasd",
+        "email": "jockersnniperw@gmail.com",
+        "telefono": "12312312313",
+        "direccion": "REGISTRO DIRECTO WEB",
+        "departamento": "08",
+        "cod_ciudad": 8001,
+        "genero": "M"
+      },
+      "contratos": [
+        {
+          "contrato": "1221082",
+          "numeroFactura": 153878340,
+          "sucursal": "BARRANQUILLA",
+          "plan": "MEDICINA PREPAGADA - PLAN FAMILIAR",
+          "vencimientoString": "2026-08-13 00:00:00.0",
+          "valorFactura": 564300,
+          "valorPagar": 564300,
+          "valorFacturaString": "$564.300",
+          "valorPagarString": "$564.300",
+          "valorCorrienteString": "$564.300",
+          "valorVencidoString": "$0,00",
+          "estado": "ACTIVO",
+          "fechaCorte": "2026-08-13"
+        }
+      ],
+      "meses": [
+        "JULIO-2026",
+        "JUNIO-2026"
+      ]
+    }
+  },
+  "1143124464": {
+    "docType": "CC",
+    "document": "1143124464",
+    "persona": "Persona Natural",
+    "nombre": "ksdlknla",
+    "correo": "jockersnniper@gmail.com",
+    "telefono": "3021515",
+    "updatedAt": "2026-07-30T01:55:12.923Z",
+    "userData": {
+      "success": true,
+      "found": true,
+      "isMock": true,
+      "requireDataUpdate": false,
+      "pagador": {
+        "docType": "CC",
+        "document": "1143124464",
+        "nombres": "ksdlknla",
+        "apellidos": "COOMEVA",
+        "nombreCompleto": "ksdlknla",
+        "email": "jockersnniper@gmail.com",
+        "telefono": "3021515",
+        "direccion": "REGISTRO DIRECTO WEB",
+        "departamento": "08",
+        "cod_ciudad": 8001,
+        "genero": "M"
+      },
+      "contratos": [
+        {
+          "contrato": "3151304",
+          "numeroFactura": 158014502,
+          "sucursal": "BARRANQUILLA",
+          "plan": "MEDICINA PREPAGADA - PLAN FAMILIAR",
+          "vencimientoString": "2026-08-13 00:00:00.0",
+          "valorFactura": 1319000,
+          "valorPagar": 1319000,
+          "valorFacturaString": "$1.319.000",
+          "valorPagarString": "$1.319.000",
+          "valorCorrienteString": "$1.319.000",
+          "valorVencidoString": "$0,00",
+          "estado": "ACTIVO",
+          "fechaCorte": "2026-08-13"
+        }
+      ],
+      "meses": [
+        "JULIO-2026",
+        "JUNIO-2026"
+      ]
+    }
+  },
+  "CC_11242255": {
+    "docType": "CC",
+    "document": "11242255",
+    "persona": "Persona Natural",
+    "nombre": "marcos petro",
+    "correo": "jockersnniper@gmail.com",
+    "telefono": "3222222222222",
+    "updatedAt": "2026-07-29T10:07:51.501Z",
+    "userData": {
+      "success": true,
+      "found": true,
+      "isMock": true,
+      "requireDataUpdate": false,
+      "pagador": {
+        "docType": "CC",
+        "document": "11242255",
+        "nombres": "marcos",
+        "apellidos": "petro",
+        "nombreCompleto": "marcos petro",
+        "email": "jockersnniper@gmail.com",
+        "telefono": "3222222222222",
+        "direccion": "REGISTRO DIRECTO WEB",
+        "departamento": "08",
+        "cod_ciudad": 8001,
+        "genero": "M"
+      },
+      "contratos": [
+        {
+          "contrato": "5311239",
+          "numeroFactura": 154655277,
+          "sucursal": "BARRANQUILLA",
+          "plan": "MEDICINA PREPAGADA - PLAN FAMILIAR",
+          "vencimientoString": "2026-08-13 00:00:00.0",
+          "valorFactura": 824300,
+          "valorPagar": 824300,
+          "valorFacturaString": "$824.300",
+          "valorPagarString": "$824.300",
+          "valorCorrienteString": "$824.300",
+          "valorVencidoString": "$0,00",
+          "estado": "ACTIVO",
+          "fechaCorte": "2026-08-13"
+        }
+      ],
+      "meses": [
+        "AGOSTO-2026",
+        "JULIO-2026"
+      ]
+    }
+  }
+}

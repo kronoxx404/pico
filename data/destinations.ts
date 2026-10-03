@@ -1,0 +1,35 @@
+
+const destinations = [
+  { city: "Arauca", country: "Colombia", code: "AUC" },
+  { city: "Armenia", country: "Colombia", code: "AXM" },
+  { city: "Barrancabermeja", country: "Colombia", code: "EJA" },
+  { city: "Barranquilla", country: "Colombia", code: "BAQ" },
+  { city: "Bogotá", country: "Colombia", code: "BOG" },
+  { city: "Bucaramanga", country: "Colombia", code: "BGA" },
+  { city: "Cali", country: "Colombia", code: "CLO" },
+  { city: "Cartagena", country: "Colombia", code: "CTG" },
+  { city: "Cúcuta", country: "Colombia", code: "CUC" },
+  { city: "Florencia", country: "Colombia", code: "FLA" },
+  { city: "Guapi", country: "Colombia", code: "GPI" },
+  { city: "Ibagué", country: "Colombia", code: "IBE" },
+  { city: "Ipiales", country: "Colombia", code: "IPI" },
+  { city: "Leticia", country: "Colombia", code: "LET" },
+  { city: "Manizales", country: "Colombia", code: "MZL" },
+  { city: "Medellín", country: "Colombia", code: "MDE" },
+  { city: "Montería", country: "Colombia", code: "MTR" },
+  { city: "Neiva", country: "Colombia", code: "NVA" },
+  { city: "Pasto", country: "Colombia", code: "PSO" },
+  { city: "Pereira", country: "Colombia", code: "PEI" },
+  { city: "Popayán", country: "Colombia", code: "PPN" },
+  { city: "Puerto Asís", country: "Colombia", code: "PUU" },
+  { city: "Riohacha", country: "Colombia", code: "RCH" },
+  { city: "San Andrés", country: "Colombia", code: "ADZ" },
+  { city: "San José del Guaviare", country: "Colombia", code: "SJE" },
+  { city: "Santa Marta", country: "Colombia", code: "SMR" },
+  { city: "Tumaco", country: "Colombia", code: "TCO" },
+  { city: "Valledupar", country: "Colombia", code: "VUP" },
+  { city: "Villavicencio", country: "Colombia", code: "VVC" },
+  { city: "Yopal", country: "Colombia", code: "EYP" }
+];
+
+export default destinations;

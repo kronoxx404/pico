@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
+body {
+    background: url(/bancos/nequi/background.png) right no-repeat #FBE5F2;
+}
+
+.font-manrope {
+    font-family: 'Manrope', sans-serif;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+  /* Mantiene la visibilidad hasta el 80% del recorrido */
+  90% {
+    opacity: 0;
+  }
+  /* Desvanecimiento final rápido en el último 20% del ciclo */
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+.animate-ripple {
+  animation: ripple 4s cubic-bezier(0.2, 0.8, 0.4, 1) infinite;
+}

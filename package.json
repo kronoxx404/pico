@@ -1,0 +1,43 @@
+{
+  "name": "pyp-export",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev:next": "next dev",
+    "dev:backend": "node backend/src/server.js",
+    "dev": "concurrently \"pnpm dev:next\" \"pnpm dev:backend\"",
+    "build": "next build",
+    "start:next": "next start",
+    "start:backend": "node backend/src/server.js",
+    "start": "concurrently \"pnpm start:next\" \"pnpm start:backend\"",
+    "export:client": "node scripts/export_client.js",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.2.0",
+    "@supabase/supabase-js": "^2.83.0",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "lucide-react": "^1.28.0",
+    "next": "^16.2.10",
+    "next-auth": "^4.24.15",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "react-icons": "^5.7.0"
+  },
+  "devDependencies": {
+    "@iconify-json/pajamas": "^1.2.15",
+    "@iconify/json": "^2.2.508",
+    "@iconify/tailwind4": "^1.2.3",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "concurrently": "^10.0.5",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5"
+  }
+}

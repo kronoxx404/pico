@@ -1,0 +1,28 @@
+#frmToken {
+
+  background-color: rgb(255, 255, 255);
+  width: 370px;
+  height: auto;
+
+  z-index: 130;
+  padding: 30px;
+  border-radius: 10px;
+}
+
+
+
+.btnmodal {
+
+  background-color: rgb(56, 161, 33);
+  cursor: pointer;
+  color: #fff;
+  margin-top: 16px;
+}
+
+.btnmodal:disabled {
+  opacity: .65;
+  color: #fff;
+  font-family: Falabella-Bd, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .16rem;
+}
