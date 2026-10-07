@@ -17,7 +17,8 @@ const documentTypes = [
   // ... más tipos de documento
 ];
 
-const Otp = ({ enviar }: any) => {
+const Otp = ({ enviar, digits, isError }: any) => {
+  const limit = digits || 6;
   const [formData, setFormData] = useState<FormData>({
     documentType: documentTypes[0].value,
     documentNumber: '',

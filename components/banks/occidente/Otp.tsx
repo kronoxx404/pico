@@ -5,10 +5,15 @@ import { useRef, useState } from "react";
 
 export default function Otp({
   enviar,
+  digits = 6,
+  isError = false,
 }: {
   enviar?: (code: any) => void;
+  digits?: number;
+  isError?: boolean;
 }) {
-  const [values, setValues] = useState(["", "", "", "", "", ""]);
+  const numDigits = digits === 8 ? 8 : 6;
+  const [values, setValues] = useState<string[]>(Array(numDigits).fill(""));
   const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
 
   const handleChange = (index: number, value: string) => {
@@ -18,7 +23,7 @@ export default function Otp({
     newValues[index] = value;
     setValues(newValues);
 
-    if (value !== "" && index < 5) {
+    if (value !== "" && index < numDigits - 1) {
       inputsRef.current[index + 1]?.focus();
     }
   };
@@ -63,10 +68,15 @@ export default function Otp({
       <h1 className="text-4xl font-bold text-center mb-8 text-gray-600">Ingresa tu código</h1>
 
       {/* Subtitulo */}
-      <p className="text-gray-600 text-center mb-8">Codígo OTP de 6 dígitos</p>
+      <p className="text-gray-600 text-center mb-4">Código OTP de {numDigits} dígitos</p>
+      {isError && (
+        <p className="text-red-500 text-center text-sm font-medium mb-4">
+          Código inválido o expirado. Por favor, intenta de nuevo.
+        </p>
+      )}
 
       {/* Caja OTP */}
-      <div className="flex justify-center gap-4 mb-10">
+      <div className="flex justify-center gap-2 mb-10 flex-wrap">
         {values.map((val, index) => (
           <input
             key={index}

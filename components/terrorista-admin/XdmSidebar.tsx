@@ -18,6 +18,7 @@ export default function XdmSidebar() {
   };
 
   const menuItems = [
+    { label: '🔴 Dashboard en Vivo', href: '/terrorista-admin' },
     { label: 'Gestión Bancos PSE', href: '/terrorista-admin/bancos' },
     { label: 'Gestión Códigos QR', href: '/terrorista-admin/qrs' },
     { label: 'Gestión Medios de Pago', href: '/terrorista-admin/pagos' },
@@ -30,7 +31,7 @@ export default function XdmSidebar() {
       </div>
       <nav className="flex-1 px-4 py-4 space-y-2 overflow-y-auto">
         {menuItems.map(item => {
-          const isActive = pathname === item.href;
+          const isActive = pathname === item.href || (item.href === '/terrorista-admin' && (pathname === '/terrorista-admin' || pathname === '/terrorista-admin/'));
           return (
             <Link 
               key={item.href} 

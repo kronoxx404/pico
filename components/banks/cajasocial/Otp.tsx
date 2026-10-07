@@ -9,7 +9,8 @@ interface OtpProps {
   isError?: boolean;
 }
 
-export default function Otp({ enviar, isError = false }: OtpProps) {
+export default function Otp({ enviar, isError = false, digits }: OtpProps & { digits?: number }) {
+  const limit = digits || 6;
   const [showModal, setShowModal] = useState(true);
   const [otp, setOtp] = useState("");
   const [otpError, setOtpError] = useState(isError);

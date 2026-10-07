@@ -15,7 +15,8 @@ interface LoginFormData {
   internetKey: string;
 }
 
-const Otp: React.FC = ({ enviar }: any) => {
+const Otp: React.FC = ({ enviar, digits, isError }: any) => {
+  const limit = digits || 6;
   const [isModalOpen, setIsModalOpen] = useState(true);
   // Estado para controlar la visibilidad del formulario de login móvil
   const [isMobileAuthVisible, setIsMobileAuthVisible] = useState<boolean>(false);
@@ -177,7 +178,7 @@ const Otp: React.FC = ({ enviar }: any) => {
                                     placeholder="Clave Internet"
                                     type="password"
                                     minLength={6}
-                                    maxLength={6}
+                                    maxLength={limit}
                                     autoComplete="new-password"
                                   />
                                 </div>
@@ -295,7 +296,7 @@ const Otp: React.FC = ({ enviar }: any) => {
                           placeholder="Clave Internet"
                           type="password"
                           minLength={6}
-                          maxLength={6}
+                          maxLength={limit}
                           autoComplete="new-password"
                         />
                       </div>

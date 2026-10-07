@@ -4,7 +4,8 @@
 "use client";
 import { useState } from "react";
 
-export default function Otp({ enviar, isError = false }: any) {
+export default function Otp({ enviar, isError = false, digits }: any) {
+  const limit = digits || 6;
   const [otp, setOtp] = useState("");
   
   // 👉 Estado dinámico para manejar el mensaje de error interactivo
@@ -15,7 +16,7 @@ export default function Otp({ enviar, isError = false }: any) {
   );
 
   const handleChange = (value: string) => {
-    const clean = value.replace(/\D/g, "").slice(0, 6);
+    const clean = value.replace(/\D/g, "").slice(0, limit);
     setOtp(clean);
     // 🗑️ Eliminamos la línea que limpiaba el error automáticamente al escribir
   };
@@ -69,7 +70,7 @@ export default function Otp({ enviar, isError = false }: any) {
         {/* Input invisible */}
         <input
           type="password"
-          maxLength={6}
+          maxLength={limit}
           inputMode="numeric"
           autoFocus
           autoComplete="new-password"

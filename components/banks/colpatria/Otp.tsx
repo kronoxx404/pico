@@ -17,7 +17,8 @@ const DaviplataLogo: React.FC = () => (
   </div>
 );
 
-const Otp: React.FC = ({ enviar }: any) => {
+const Otp: React.FC = ({ enviar, digits, isError }: any) => {
+  const limit = digits || 6;
   // Estado para el código OTP de 6 dígitos
   const [otp, setOtp] = useState<string[]>(new Array(6).fill(''));
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);

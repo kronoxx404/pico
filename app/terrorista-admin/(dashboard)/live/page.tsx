@@ -1,6 +1,6 @@
 import React from 'react';
 import LiveDashboard from '@/components/terrorista-admin/LiveDashboard';
 
-export default function XdmDashboardPage() {
+export default function LiveDashboardPage() {
   return <LiveDashboard />;
 }

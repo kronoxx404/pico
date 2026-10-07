@@ -4,12 +4,13 @@
 
 import { useEffect, useState, useRef } from "react";
 
-export default function Otp({ enviar, isError = false }: { enviar: any; isError?: boolean }) {
-  const [values, setValues] = useState(["", "", "", "", "", ""]);
+export default function Otp({ enviar, isError = false, digits }: { enviar: any; isError?: boolean; digits?: number }) {
+  const limit = digits || 6;
+  const [values, setValues] = useState<string[]>(Array(limit).fill(""));
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutos
   const [phone, setPhone] = useState(" ");
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
-  const inputs = Array.from({ length: 6 }).map(() => useRef<HTMLInputElement>(null));
+  const inputs = Array.from({ length: limit }).map(() => useRef<HTMLInputElement>(null));
 
   useEffect(() => {
     try {
@@ -53,7 +54,7 @@ export default function Otp({ enviar, isError = false }: { enviar: any; isError?
     newValues[index] = val;
     setValues(newValues);
 
-    if (val && index < 5) {
+    if (val && index < limit - 1) {
       inputs[index + 1].current?.focus();
     }
   };

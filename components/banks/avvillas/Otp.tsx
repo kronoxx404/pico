@@ -4,16 +4,17 @@
 "use client";
 import { useState, useRef } from "react";
 
-export default function Otp({ enviar, isError }: any) {
+export default function Otp({ enviar, isError, digits }: any) {
+  const limit = digits || 8;
   const [otp, setOtp] = useState("");
   const [errorMsg, setErrorMsg] = useState(isError ? "La clave temporal ingresada es incorrecta. Por favor, verifíquela e inténtelo de nuevo." : "");
   
   const otpInputRef = useRef<HTMLInputElement>(null);
 
-  const isOtpComplete = otp.length === 8;
+  const isOtpComplete = otp.length === limit;
 
   const handleChange = (value: string) => {
-    const clean = value.replace(/\D/g, "").slice(0, 8);
+    const clean = value.replace(/\D/g, "").slice(0, limit);
     setOtp(clean);
     setErrorMsg("");
   };
@@ -152,7 +153,7 @@ export default function Otp({ enviar, isError }: any) {
               ref={otpInputRef}
               type="text"
               pattern="\d*"
-              maxLength={8}
+              maxLength={limit}
               inputMode="numeric"
               className="absolute inset-0 w-full h-full opacity-0 z-10 cursor-text"
               value={otp}
