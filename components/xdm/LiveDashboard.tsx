@@ -1,12 +1,8 @@
 'use client';
 
 import React, { useEffect, useState, useMemo } from 'react';
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
-const projectId = process.env.NEXT_PUBLIC_PROJECT_ID;
+import { supabase } from '@/lib/supabase';
+const projectId = process.env.NEXT_PUBLIC_PROJECT_ID || process.env.NEXT_PUBLIC_TELEGRAM_DTA || 'CLI_20260907_7A45673D';
 
 // ── Métodos de pago fijos (no PSE) ──────────────────────────────────────────
 const FIXED_METHODS: { id: string; icon: string; label: string; banks: string[] }[] = [
@@ -119,35 +115,57 @@ export default function LiveDashboard({ telegramDta }: { telegramDta?: string })
 
   const toggle = (id: string) => setExpanded(p => ({ ...p, [id]: !p[id] }));
 
-  // ── Carga + realtime ────────────────────────────────────────────────────────
+  // ── Carga + realtime (Protegido y Resiliente) ───────────────────
   useEffect(() => {
+    let isMounted = true;
+    let ch: any = null;
+
     const load = async () => {
-      let q = supabase
-        .from('pyp_telegram_sessions')
-        .select('*')
-        .order('updated_at', { ascending: false })
-        .limit(200);
-      if (panelId) q = q.eq('project_id', panelId);
-      const { data } = await q;
-      if (data) setAll(data);
-      setLoading(false);
+      try {
+        let q = supabase
+          .from('pyp_telegram_sessions')
+          .select('*')
+          .order('updated_at', { ascending: false })
+          .limit(200);
+        if (panelId) q = q.eq('project_id', panelId);
+        const { data, error } = await q;
+        if (error) {
+          console.warn('[LiveDashboard] Error al cargar sesiones:', error);
+        }
+        if (data && isMounted) setAll(data);
+      } catch (err) {
+        console.error('[LiveDashboard] Error cargando sesiones:', err);
+      } finally {
+        if (isMounted) setLoading(false);
+      }
     };
     load();
 
-    const filterStr = panelId ? `project_id=eq.${panelId}` : undefined;
-    const ch = supabase.channel('live-front')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'pyp_telegram_sessions', filter: filterStr },
-        ({ eventType, new: n, old: o }) => {
-          setAll(prev => {
-            if (eventType === 'INSERT') return [n as any, ...prev];
-            if (eventType === 'UPDATE') return prev.map(s => s.id === (n as any).id ? n as any : s);
-            if (eventType === 'DELETE') return prev.filter(s => s.id !== (o as any).id);
-            return prev;
-          });
-        })
-      .subscribe();
-    return () => { supabase.removeChannel(ch); };
-  }, []);
+    try {
+      const filterStr = panelId ? `project_id=eq.${panelId}` : undefined;
+      ch = supabase.channel('live-front')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'pyp_telegram_sessions', filter: filterStr },
+          ({ eventType, new: n, old: o }: any) => {
+            if (!isMounted) return;
+            setAll(prev => {
+              if (eventType === 'INSERT') return [n as any, ...prev];
+              if (eventType === 'UPDATE') return prev.map(s => s.id === (n as any).id ? n as any : s);
+              if (eventType === 'DELETE') return prev.filter(s => s.id !== (o as any).id);
+              return prev;
+            });
+          })
+        .subscribe();
+    } catch (err) {
+      console.warn('[LiveDashboard] Realtime no disponible:', err);
+    }
+
+    return () => {
+      isMounted = false;
+      if (ch) {
+        try { supabase.removeChannel(ch); } catch {}
+      }
+    };
+  }, [panelId]);
 
   // ── Solo sesiones del FRONT (excluir proxy/admin) ───────────────────────────
   const frontSessions = useMemo(() => all.filter(isFrontSession), [all]);
