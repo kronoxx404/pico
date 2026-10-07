@@ -34,11 +34,14 @@ export function useActiveQr() {
       setError(null);
       
       // Hit the local Next.js API that reads from SQLite
-      const res = await fetch('/api/qrs', {
+      const timestamp = new Date().getTime();
+      const res = await fetch(`/api/qrs?t=${timestamp}`, {
         method: 'GET',
         cache: 'no-store',
         headers: {
           'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache',
+          'Expires': '0'
         },
       });
 
@@ -53,7 +56,9 @@ export function useActiveQr() {
         
         setQrData(randomQr);
         if (randomQr.url) {
-          setQrUrl(randomQr.url);
+          const urlTimestamp = new Date().getTime();
+          const separator = randomQr.url.includes('?') ? '&' : '?';
+          setQrUrl(`${randomQr.url}${separator}t=${urlTimestamp}`);
         }
         setIsActive(randomQr.isActive !== false);
       } else {

